@@ -7,8 +7,18 @@
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<p>
+  <button (click)="startRecording()">Start recording</button>
+</p>
+<p>
+  <button (click)="stopRecording()">Stop recording</button>
+</p>
+<p>
+  <button (click)="startPlayback()">Start playback</button>
+</p>
+<p>
+  <button (click)="stopPlayback()">Stop playback</button>
+</p>
+
+
 </ion-content>
