@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MediaPlugin } from 'ionic-native';
 import { NavController, AlertController } from 'ionic-angular';
-
+import { File } from '@ionic-native/file';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -9,10 +9,24 @@ import { NavController, AlertController } from 'ionic-angular';
 export class HomePage {
 
 media: MediaPlugin;
-constructor(public navCtrl: NavController,public alertCtrl: AlertController) {}
+constructor(private file: File,public navCtrl: NavController,public alertCtrl: AlertController) {}
+
+createDir(){
+  this.file.createDir(this.file.dataDirectory,'violon',true).then(_ => this.showSucces('File created')).catch(err => this.showAlert('File not created'));
+  this.file.checkDir(this.file.dataDirectory,'violon').then(_ => this.showSucces('File exists')).catch(err => this.showAlert('File doesn\'t exist'));
+}
 showAlert(message) {
   let alert = this.alertCtrl.create({
     title: 'Error',
+    subTitle: message,
+    buttons: ['OK']
+  });
+  alert.present();
+}
+
+showSucces(message) {
+  let alert = this.alertCtrl.create({
+    title: 'Success',
     subTitle: message,
     buttons: ['OK']
   });
