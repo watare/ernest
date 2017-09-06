@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { File} from '@ionic-native/file';
+import {MyMediaService} from '../pages/home/my-media.service';
 @NgModule({
   declarations: [
     MyApp,
@@ -24,6 +25,7 @@ import { File} from '@ionic-native/file';
     StatusBar,
     SplashScreen,
     File,
+    MyMediaService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
