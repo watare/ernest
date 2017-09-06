@@ -18,8 +18,6 @@ export class HomePage {
     this.media = this.mymedia.getMedia();
   }
 
-  }
-
   //verifie si le fichier a bien ete deplace
   createDir(){
     this.file.checkFile(this.file.dataDirectory+'/',this.nameMed)
@@ -47,6 +45,7 @@ export class HomePage {
   public startRecording() {
     try {
       this.media.startRecord();
+      ///this.showAlert(this.nameMed);
     }
     catch (e) {
       this.showAlert('Could not start recording.');
@@ -61,10 +60,16 @@ export class HomePage {
       .then(_ => this.showSucces('File exists'))
       .catch(err => this.showAlert('File doesn\'t exist'+this.nameMed));
 
-      this.file.moveFile('file:///storage/emulated/0/',this.nameMed, this.file.dataDirectory, this.nameMed)
+      /*this.file.moveFile('file:///storage/emulated/0/',this.nameMed, this.file.dataDirectory, this.nameMed)
         .then(_ => this.showSucces('so happy'))
         .catch(err => this.showAlert('fuck'));
-
+*/
+      //delete this.mymedia;
+      //delete this.nameMed;
+      //delete this.media;
+      //this.mymedia = new MyMediaService;
+      //this.media = this.mymedia.getMedia();
+      //this.nameMed = this.mymedia.getName();
       
   }
     catch (e) {
