@@ -8,7 +8,8 @@ export class MyMediaService {
 	nameMed: string
 	media: MediaPlugin
 	constructor(){
-		this.nameMed= this.Id()+'.wav';
+		
+		this.nameMed= this.Id()+'.m4a';
 		this.media = new MediaPlugin(this.nameMed);
 
 	}

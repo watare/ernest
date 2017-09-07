@@ -57,26 +57,30 @@ export class HomePage {
       this.media.stopRecord();
       //setTimeout(this.file.resolveLocalFilesystemUrl(this.nameMed).then(reponse => this.showSucces(reponse)).catch(err =>this.showAlert('fuck')), 5000);
       this.file.checkFile('file:///storage/emulated/0/',this.nameMed)
-      .then(_ => this.showSucces('File exists'))
+      .then(_ => this.myMove())
       .catch(err => this.showAlert('File doesn\'t exist'+this.nameMed));
-
-      /*this.file.moveFile('file:///storage/emulated/0/',this.nameMed, this.file.dataDirectory, this.nameMed)
-        .then(_ => this.showSucces('so happy'))
-        .catch(err => this.showAlert('fuck'));
-*/
-      //delete this.mymedia;
-      //delete this.nameMed;
-      //delete this.media;
-      //this.mymedia = new MyMediaService;
-      //this.media = this.mymedia.getMedia();
-      //this.nameMed = this.mymedia.getName();
+        
       
   }
     catch (e) {
       this.showAlert('Could not stop recording.');
     }
   }
+  private myMove() {
 
+    this.file.moveFile('file:///storage/emulated/0/',this.nameMed, 'file:///storage/emulated/0/Ernestdata/', this.nameMed)
+        .then(_ => this.release())
+        .catch(err => this.showAlert('fuck'));
+  }
+  private release() {
+
+      delete this.mymedia;
+      delete this.nameMed;
+      delete this.media;
+      this.mymedia = new MyMediaService;
+      this.media = this.mymedia.getMedia();
+      this.nameMed = this.mymedia.getName();
+  }
   public startPlayback() {
     try {
       this.media.play();
