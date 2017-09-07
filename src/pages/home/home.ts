@@ -3,6 +3,7 @@ import { MediaPlugin } from 'ionic-native';
 import { NavController, AlertController } from 'ionic-angular';
 import { File } from '@ionic-native/file';
 import {MyMediaService} from './my-media.service';
+import { TutoTreeComponent} from '../../components/tuto-tree/tuto-tree';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'

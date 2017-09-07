@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
+import { TutoTreeComponent } from './tuto-tree/tuto-tree';
 
 @NgModule({
-	declarations: [],
+	declarations: [TutoTreeComponent],
 	imports: [],
 	exports: [,
+    TutoTreeComponent,
     ]
 })
 export class ComponentsModule {}

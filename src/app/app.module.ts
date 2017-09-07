@@ -7,14 +7,17 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { File} from '@ionic-native/file';
 import {MyMediaService} from '../pages/home/my-media.service';
+import { TutoTreeComponent} from '../components/tuto-tree/tuto-tree';
+import { BranchListProvider } from '../providers/branch-list/branch-list';
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+    TutoTreeComponent,
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -26,7 +29,8 @@ import {MyMediaService} from '../pages/home/my-media.service';
     SplashScreen,
     File,
     MyMediaService,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    BranchListProvider,
   ]
 })
 export class AppModule {}
