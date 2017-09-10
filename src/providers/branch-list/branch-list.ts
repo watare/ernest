@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { BRANCHES} from '../../assets/mock-branch';
+import { Branch} from '../../assets/branch';
+//import {MockBranch} from '../../assets/mock-branch'; 
 
 /*
   Generated class for the BranchListProvider provider.
@@ -11,8 +12,12 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class BranchListProvider {
 
-  constructor(public http: Http) {
-    console.log('Hello BranchListProvider Provider');
+  public message : any = "lapiou"
+  //a terme le getbranch prend l'id du tuto en parametre
+  getBranch(): Promise <Branch[]> {
+  	return Promise.resolve(BRANCHES);
   }
 
-}
+    
+  }
+

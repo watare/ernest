@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-//import { BranchListProvider} from '../../providers/branch-list/branch-list';
+import { BranchListProvider} from '../../providers/branch-list/branch-list';
+import { Branch} from '../../assets/branch';
+import {Tuto} from '../../assets/tuto';
 /**
  * Generated class for the TutoTreeComponent component.
  *
@@ -12,15 +14,20 @@ import { Component } from '@angular/core';
 })
 export class TutoTreeComponent {
 
-//Id du tuto	
-	id: string;
-//titre du tuto
-	title: string;
-  constructor(/*public branchList:BranchListProvider*/) {
-    console.log('Hello TutoTreeComponent Component');
-    this.title = 'Hello World';
-    this.id = 'cowboy';
+	tuto: Tuto;
 
+  constructor(public branchListProvider:BranchListProvider) {}
+
+  /*setTitle(){
+  	this.tuto.title = 'Hello World';	
   }
-
+  
+  setId(){
+  	this.tuto.id = 'cowboy';	
+  }
+  
+  addBranch(){
+  	this.branchListProvider.getBranch()
+    .then (branches=>this.tuto.branchList=branches);	
+  }*/
 }

@@ -9,6 +9,7 @@ import { File} from '@ionic-native/file';
 import {MyMediaService} from '../pages/home/my-media.service';
 import { TutoTreeComponent} from '../components/tuto-tree/tuto-tree';
 import { BranchListProvider } from '../providers/branch-list/branch-list';
+import { IonicStorageModule } from '@ionic/storage';
 @NgModule({
   declarations: [
     MyApp,
@@ -18,6 +19,7 @@ import { BranchListProvider } from '../providers/branch-list/branch-list';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
