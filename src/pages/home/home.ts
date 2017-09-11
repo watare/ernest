@@ -4,6 +4,8 @@ import { NavController, AlertController } from 'ionic-angular';
 import { File } from '@ionic-native/file';
 import {MyMediaService} from './my-media.service';
 import { TutoTreeComponent} from '../../components/tuto-tree/tuto-tree';
+import {TutoPage} from '../tuto/tuto';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -14,9 +16,25 @@ export class HomePage {
   //media: MediaPlugin;
   nameMed : string;
   media : MediaPlugin;
-  constructor(public mymedia: MyMediaService , private file: File,public navCtrl: NavController,public alertCtrl: AlertController) {
+  private db: SQLiteObject;
+  constructor(private sqlite: SQLite ,public mymedia: MyMediaService , private file: File,public navCtrl: NavController,public alertCtrl: AlertController) {
     this.nameMed =this.mymedia.getName();
     this.media = this.mymedia.getMedia();
+    //essai de creation de database
+    try {
+      this.sqlite.create({
+      name: 'doto.db',
+      location: 'default'
+    })
+      .then((db: SQLiteObject) => {
+    this.db=db; db.executeSql('create table if not exists danceMoves(name VARCHAR(32))', {})
+      .then(() => this.showSucces('Executed SQL'))
+      .catch(e => this.showAlert('fuck'));
+  });
+}
+    catch(e){
+      this.showAlert('fuck');
+    }
   }
 
   //verifie si le fichier a bien ete deplace
@@ -24,7 +42,27 @@ export class HomePage {
     this.file.checkFile(this.file.dataDirectory+'/',this.nameMed)
       .then(_ => this.showSucces('ça bouge!'))
       .catch(err => this.showAlert('loupe!'));
-    }
+  }
+  createTable(){
+    this.db.executeSql('create table if not exists Tuto_table(id INTEGER PRIMARY KEY AUTOINCREMENT,title VARCHAR(40))',{})
+      .then(() => this.showSucces('table cree'))
+      .catch(e => this.showAlert('fuck'));
+  }
+  insertTuto(){
+    this.db.executeSql('insert into Tuto_table (title) values ("titi")',{})
+    .then(() => this.showSucces('insertion reussie'))
+    .catch(e => this.showAlert('fuck'));
+
+  }
+   selectTuto(){
+    this.db.executeSql('select * from Tuto_table',{})
+    .then((result) => this.showSucces(result.rows.item(1).id))
+    .catch(e => this.showAlert('ne fonctionne pas'));
+
+  }
+  showTutoPage() {
+    this.navCtrl.push(TutoPage);
+}
   //les alertes
   showAlert(message) {
     let alert = this.alertCtrl.create({

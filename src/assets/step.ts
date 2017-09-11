@@ -7,7 +7,7 @@ export class Step{
 	public mediaList: Media[]
 	constructor (){
 		this.id='step' + Math.random().toString(6).substr(2, 9);
-		this.name=null;
+		this.name='';
 		this.mediaList=null;
 	}
 }
