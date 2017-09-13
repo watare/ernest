@@ -8,6 +8,7 @@ import { HomePage } from '../pages/home/home';
 import { TutoPage} from '../pages/tuto/tuto';
 import { File} from '@ionic-native/file';
 import {MyMediaService} from '../pages/home/my-media.service';
+import {MyDbService} from '../pages/home/my-db.service';
 import { TutoTreeComponent} from '../components/tuto-tree/tuto-tree';
 import { BranchListProvider } from '../providers/branch-list/branch-list';
 import { IonicStorageModule } from '@ionic/storage';
@@ -36,6 +37,7 @@ import { SQLite } from '@ionic-native/sqlite';
     File,
     SQLite,
     MyMediaService,
+    MyDbService,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     BranchListProvider,
   ]

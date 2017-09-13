@@ -4,6 +4,7 @@ import { NavController, AlertController } from 'ionic-angular';
 import { File } from '@ionic-native/file';
 import {MyMediaService} from './my-media.service';
 import { TutoTreeComponent} from '../../components/tuto-tree/tuto-tree';
+import {MyDbService} from './my-db.service';
 import {TutoPage} from '../tuto/tuto';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 @Component({
@@ -16,25 +17,10 @@ export class HomePage {
   //media: MediaPlugin;
   nameMed : string;
   media : MediaPlugin;
-  private db: SQLiteObject;
-  constructor(private sqlite: SQLite ,public mymedia: MyMediaService , private file: File,public navCtrl: NavController,public alertCtrl: AlertController) {
+  //private db: SQLiteObject;
+  constructor(private myDbService: MyDbService ,public mymedia: MyMediaService , private file: File,public navCtrl: NavController,public alertCtrl: AlertController) {
     this.nameMed =this.mymedia.getName();
     this.media = this.mymedia.getMedia();
-    //essai de creation de database
-    try {
-      this.sqlite.create({
-      name: 'doto.db',
-      location: 'default'
-    })
-      .then((db: SQLiteObject) => {
-    this.db=db; db.executeSql('create table if not exists danceMoves(name VARCHAR(32))', {})
-      .then(() => this.showSucces('Executed SQL'))
-      .catch(e => this.showAlert('fuck'));
-  });
-}
-    catch(e){
-      this.showAlert('fuck');
-    }
   }
 
   //verifie si le fichier a bien ete deplace
@@ -43,22 +29,14 @@ export class HomePage {
       .then(_ => this.showSucces('ça bouge!'))
       .catch(err => this.showAlert('loupe!'));
   }
-  createTable(){
-    this.db.executeSql('create table if not exists Tuto_table(id INTEGER PRIMARY KEY AUTOINCREMENT,title VARCHAR(40))',{})
-      .then(() => this.showSucces('table cree'))
-      .catch(e => this.showAlert('fuck'));
-  }
+ 
   insertTuto(){
-    this.db.executeSql('insert into Tuto_table (title) values ("titi")',{})
-    .then(() => this.showSucces('insertion reussie'))
-    .catch(e => this.showAlert('fuck'));
-
+    //this.showSucces('on est la insert');
+    this.myDbService.insertTuto('tata');
+  
   }
    selectTuto(){
-    this.db.executeSql('select * from Tuto_table',{})
-    .then((result) => this.showSucces(result.rows.item(1).id))
-    .catch(e => this.showAlert('ne fonctionne pas'));
-
+    this.myDbService.selectTuto('tata');
   }
   showTutoPage() {
     this.navCtrl.push(TutoPage);
