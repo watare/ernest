@@ -17,6 +17,7 @@ export class HomePage {
   //media: MediaPlugin;
   nameMed : string;
   media : MediaPlugin;
+  name='monPremierTuto'
   //private db: SQLiteObject;
   constructor(private myDbService: MyDbService ,public mymedia: MyMediaService , private file: File,public navCtrl: NavController,public alertCtrl: AlertController) {
     this.nameMed =this.mymedia.getName();
@@ -30,15 +31,34 @@ export class HomePage {
       .catch(err => this.showAlert('loupe!'));
   }
  
-  insertTuto(){
+  insertTuto(name=this.name){
     //this.showSucces('on est la insert');
-    this.myDbService.insertTuto('tata');
-  
+    //creation du tuto
+    this.myDbService.insertTuto(name)
+    //ajout de la branche principale
+    .then(()=> this.myDbService.selectTuto(name)
+      .then((branchTuto)=> this.myDbService.insertBranch('1',branchTuto)
+        .then(()=>this.myDbService.selectBranches(branchTuto)
+          .then((stepBranch)=> this.myDbService.insertStep('1',stepBranch[0])
+            .then(()=>this.myDbService.selectStep(stepBranch)
+              .then((stepIds)=> this.showSucces(stepIds)
+              )
+            )
+          )
+        )
+      )
+    )
   }
-   selectTuto(){
-    this.myDbService.selectTuto('tata')
-    .then((result)=>this.showSucces(result));
+   selectTuto(name=this.name){
+    this.myDbService.selectTuto(name)
+    .then((branchTuto)=>this.myDbService.insertBranch('1',branchTuto)
+      .then(()=>this.myDbService.selectBranches(branchTuto)
+        .then((branchIds)=> this.showSucces(branchIds)
+        )
+      )
+    )
   }
+
   showTutoPage() {
     this.navCtrl.push(TutoPage);
 }

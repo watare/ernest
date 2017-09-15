@@ -33,10 +33,14 @@ export class MyDbService {
   }
 
   insertTuto(title){
-  	
-    this.db.executeSql("INSERT INTO tutoTable (title) VALUES (?)",[title])
-      .then(() => this.showSucces('insertion reussie'))
-      .catch(e => this.showAlert('error'));
+  	return new Promise ((resolve,reject)=>
+      this.db.executeSql("INSERT INTO tutoTable (title) VALUES (?)",[title])
+        .then(() => {
+          resolve();
+          this.showSucces('insertion reussie');
+        })
+        .catch(e => this.showAlert('error'))
+    )
   }
 
   //fonction retournant l'ID d'un tutoriel à partir de son titre sous forme de promesse
@@ -48,6 +52,7 @@ export class MyDbService {
           var keyId =result.rows.item(0).tutoId;
           //definition de la variable à renvoyer
           resolve(keyId);
+          this.showSucces("selection tuto réussie");
         })
       //this.showSucces(result.rows.item(0).title);})
         .catch(e => this.showAlert('ne fonctionne pas'));
@@ -59,43 +64,65 @@ export class MyDbService {
   }
   
   insertBranch(title, branchTuto){
-    
-    this.db.executeSql("INSERT INTO branchTable (title, branchTuto) VALUES (?,?)",[title,branchTuto])
-      .then(() => this.showSucces('insertion reussie'))
+    return new Promise ((resolve,reject)=>{
+      this.db.executeSql("INSERT INTO branchTable (title, branchTuto) VALUES (?,?)",[title,branchTuto])
+      .then(() => resolve()/*this.showSucces('insertion reussie')*/)
       .catch(e => this.showAlert('error'));
+    })
+    
   }
 //selection des branches appartenant a un tuto a partir de sa key
-  selectBranches(branchTuto): Promise <number[]>{
+  selectBranches(branchTuto): Promise <Number[]>{
     
     return new Promise ((resolve,reject)=>
     {
-      this.db.executeSql("SELECT branchId FROM branchTable WHERE branchTuto=?",[branchTuto])
+      this.db.executeSql("SELECT branchId FROM branchTable WHERE branchTuto=?" ,[branchTuto])
       .then((result) => 
         {
-          var branchIds:number[];
+          var branchIds = [];
           for (let i=0;i<result.rows.length;i++)
           {
             branchIds[i]=result.rows.item(i).branchId;
           }
+          //branchIds[0]=result.rows.length;
           resolve(branchIds);
+          this.showSucces("selection branche réussie");
+          //this.showSucces(result.rows.length);
         })
-      .catch(e => this.showAlert('ne fonctionne pas'));
+      .catch(e => this.showAlert('branch selection ne fonctionne pas'));
     })
     //return 
   }
 
-  insertStep(title, stepBranch){
-    
-    this.db.executeSql("INSERT INTO branchTable (title, stepBranch) VALUES (?,?)",[title,stepBranch])
-      .then(() => this.showSucces('insertion reussie'))
+insertStep(title, stepBranch){
+    return new Promise ((resolve,reject)=>{
+      this.db.executeSql("INSERT INTO stepTable (title, stepBranch) VALUES (?,?)",[title,stepBranch])
+      .then(() => resolve()/*this.showSucces('insertion reussie')*/)
       .catch(e => this.showAlert('error'));
+    })
+    
   }
-
-  selectStep(title){
-    this.db.executeSql("SELECT title FROM stepTable WHERE title=?",[title])
-      .then((result) => this.showSucces(result.rows.item(0).title))
-      .catch(e => this.showAlert('ne fonctionne pas'));
-    //return a
+//selection des branches appartenant a une branche a partir de sa key
+  selectStep(stepBranch): Promise <Number[]>{
+    
+    return new Promise ((resolve,reject)=>
+    {
+      this.db.executeSql("SELECT stepId FROM stepTable WHERE stepBranch=?" ,[stepBranch])
+      .then((result) => 
+        {
+          var stepIds = [];
+          for (let i=0;i<result.rows.length;i++)
+          {
+            stepIds[i]=result.rows.item(i).stepId;
+          }
+          //branchIds[0]=result.rows.length;
+          resolve(stepIds);
+          this.showSucces("selection step réussie");
+          //this.showSucces(result.rows.length);
+        })
+      .catch(e => this.showAlert('step ne fonctionne pas'));
+    })
+    //return 
   }
   
   getDb(){return this.db};
