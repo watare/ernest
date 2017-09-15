@@ -36,7 +36,8 @@ export class HomePage {
   
   }
    selectTuto(){
-    this.myDbService.selectTuto('tata');
+    this.myDbService.selectTuto('tata')
+    .then((result)=>this.showSucces(result));
   }
   showTutoPage() {
     this.navCtrl.push(TutoPage);
