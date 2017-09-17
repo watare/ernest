@@ -10,15 +10,18 @@ import { File} from '@ionic-native/file';
 import {MyMediaService} from '../pages/home/my-media.service';
 import {MyDbService} from '../pages/home/my-db.service';
 import { TutoTreeComponent} from '../components/tuto-tree/tuto-tree';
+import { StepComponent} from '../components/step/step';
 import { BranchListProvider } from '../providers/branch-list/branch-list';
 import { IonicStorageModule } from '@ionic/storage';
 import { SQLite } from '@ionic-native/sqlite';
+import { Camera } from '@ionic-native/camera';
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     TutoPage,
     TutoTreeComponent,
+    StepComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +41,7 @@ import { SQLite } from '@ionic-native/sqlite';
     SQLite,
     MyMediaService,
     MyDbService,
+    Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     BranchListProvider,
   ]
