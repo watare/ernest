@@ -5,6 +5,7 @@ import { File } from '@ionic-native/file';
 import { NavController, AlertController } from 'ionic-angular';
 import {Description} from '../../assets/description';
 import {Debug} from '../../assets/debug';
+import {MyDbService} from '../../pages/home/my-db.service';
 /**
  * Generated class for the StepComponent component.
  *
@@ -40,10 +41,13 @@ export class StepComponent {
   descriptions:Description[]
   //tableau contenant l'url des medias de l'etape
   medias: Media[]
+  //pour tests
+  medias2: Media[]
   // variable permettant de faire des affichages conditionnels. incrementation en fonction du nombre de media dans medias
   count:number;
   debug:Debug;
-
+  //objet pour sqlite
+  mediaSq:string;
   //objet definnissant les options de la camera. Permet egalement de prendre des videos et d'acceder a la gallerie photo/video
   options: CameraOptions = {
   quality: 60,
@@ -53,7 +57,7 @@ export class StepComponent {
 };
 
   //en parametre le constructor prend le provider camera, les alertes et l'acces au fichier
-  constructor(private camera: Camera,private file: File) {
+  constructor(private myDbService: MyDbService, private camera: Camera,private file: File) {
   	console.log('Hello StepComponent Component');
     //initialisation des variables.Pour rappel il est impossible  d'ajouter des variables dans un tableau sans l'avoir cree []
     this.medias=[];
@@ -96,6 +100,9 @@ export class StepComponent {
        .then(()=>{
          this.medias.push({id:'file:///storage/emulated/0/Ernestdata/'+ name,type: 'photo',selected: false});
          this.count++;
+         this.mediaSq=this.toJson(this.medias);
+         this.medias2=eval("(" + this.mediaSq + ")");
+         this.myDbService.insertStep(this.mediaSq,2);
        })
        
        
@@ -117,5 +124,8 @@ export class StepComponent {
   //fonction permettant d'ajouter une nouvelle ligne de description
   addDescription(){
     this.descriptions.push(new Description);
+  }
+  toJson(obj){
+    return JSON.stringify(obj);
   }
 }

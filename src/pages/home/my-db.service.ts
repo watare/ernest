@@ -25,7 +25,8 @@ export class MyDbService {
           .then(() => db.executeSql('create table if not exists stepTable(stepId INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT,stepBranch INTEGER,FOREIGN KEY(stepBranch) REFERENCES tutoTable(branchId))',{})
           )
     	  );
-        this.showAlert('tables crees'); 
+        this.showAlert('tables crees');
+        this.selectStep(2); 
       })
       .catch(e => this.showAlert('fuck'));
 
@@ -107,7 +108,7 @@ insertStep(title, stepBranch){
     
     return new Promise ((resolve,reject)=>
     {
-      this.db.executeSql("SELECT stepId FROM stepTable WHERE stepBranch=?" ,[stepBranch])
+      this.db.executeSql("SELECT title FROM stepTable WHERE stepBranch=?" ,[stepBranch])
       .then((result) => 
         {
           var stepIds = [];
@@ -117,7 +118,7 @@ insertStep(title, stepBranch){
           }
           //branchIds[0]=result.rows.length;
           resolve(stepIds);
-          this.showSucces("selection step réussie");
+          this.showSucces(result.rows.item(0).title);
           //this.showSucces(result.rows.length);
         })
       .catch(e => this.showAlert('step ne fonctionne pas'));
