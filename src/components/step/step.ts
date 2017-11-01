@@ -5,7 +5,7 @@ import { File } from '@ionic-native/file';
 import { NavController, AlertController } from 'ionic-angular';
 import {Description} from '../../assets/description';
 import {Debug} from '../../assets/debug';
-import {MyDbService} from '../../pages/home/my-db.service';
+import {MyDbService} from '../../services/my-db.service';
 /**
  * Generated class for the StepComponent component.
  *
@@ -103,6 +103,7 @@ export class StepComponent {
          this.mediaSq=this.toJson(this.medias);
          this.medias2=eval("(" + this.mediaSq + ")");
          this.myDbService.insertStep(this.mediaSq,2);
+         this.myDbService.selectStep(2);
        })
        
        

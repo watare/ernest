@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { MediaPlugin } from 'ionic-native';
 import { NavController, AlertController } from 'ionic-angular';
 import { File } from '@ionic-native/file';
-import {MyMediaService} from './my-media.service';
+import {MyMediaService} from '../../services/my-media.service';
 import { TutoTreeComponent} from '../../components/tuto-tree/tuto-tree';
 import { StepComponent} from '../../components/step/step';
 
-import {MyDbService} from './my-db.service';
+import {MyDbService} from '../../services/my-db.service';
 import {TutoPage} from '../tuto/tuto';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 @Component({
