@@ -34,24 +34,37 @@ export class HomePage {
   }
  
   insertTuto(name=this.name){
+    var results=[];
     //this.showSucces('on est la insert');
     //creation du tuto
     this.myDbService.insertTuto(name)
-    //ajout de la branche principale
-    .then(()=> this.myDbService.selectTuto(name)
-      .then((branchTuto)=> this.myDbService.insertBranch('1',branchTuto)
-        .then(()=>this.myDbService.selectBranches(branchTuto)
-          .then((stepBranch)=> this.myDbService.insertStep('1',stepBranch[0])
-            .then(()=>this.myDbService.selectStep(stepBranch)
-              .then((stepIds)=> this.showSucces(stepIds)
-              )
-            )
-          )
-        )
-      )
-    )
+    .then(() => 
+       this.myDbService.db.executeSql("SELECT * FROM tutoTable",[])
+       .then((result)=> {
+         for (let i=0;i<result.rows.length;i++ )
+           {
+             results[i]=result.rows.item(i);
+           }
+           this.showSucces(JSON.stringify(results))
+         }
+       )
+     )
+    .catch(e => this.showAlert("pasbon"))
   }
-   selectTuto(name=this.name){
+  showTuto(){
+    var results=[];
+    this.myDbService.db.executeSql("SELECT * FROM tutoTable",[])
+       .then((result)=> {
+         for (let i=0;i<result.rows.length;i++ )
+           {
+             results[i]=result.rows.item(i);
+           }
+           this.showSucces(JSON.stringify(results))
+         }
+       )
+    .catch(e => this.showAlert("pasbon"))
+  }
+  /* selectTuto(name=this.name){
     this.myDbService.selectTuto(name)
     .then((branchTuto)=>this.myDbService.insertBranch('1',branchTuto)
       .then(()=>this.myDbService.selectBranches(branchTuto)
@@ -59,7 +72,7 @@ export class HomePage {
         )
       )
     )
-  }
+  }*/
 
   showTutoPage() {
     this.navCtrl.push(TutoPage);

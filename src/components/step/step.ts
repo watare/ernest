@@ -102,8 +102,8 @@ export class StepComponent {
          this.count++;
          this.mediaSq=this.toJson(this.medias);
          this.medias2=eval("(" + this.mediaSq + ")");
-         this.myDbService.insertStep(this.mediaSq,2);
-         this.myDbService.selectStep(2);
+         //this.myDbService.insertStep(this.mediaSq,2);
+         //this.myDbService.selectStep(2);
        })
        
        
@@ -128,5 +128,13 @@ export class StepComponent {
   }
   toJson(obj){
     return JSON.stringify(obj);
+  }
+  saveStep(){
+
+    this.myDbService.selectLastStep()
+      .then(result=> this.myDbService.insertStep(this.toJson(this.medias),result[0],result[1]+1))
+        .then((result2)=> this.myDbService.incrementTutoStep(result2[0],result2[1]))
+          .catch(e => this.debug.showAlert('fuck'));
+
   }
 }
