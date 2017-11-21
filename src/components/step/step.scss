@@ -5,16 +5,48 @@ step {
         list-style-position:inside;
         margin:0;
         padding:0; }
-}
-.pure{
+
+/*.pure{
 	border: none;
-}
-.image{
-	/*width:250px;
-	heigth:140px;*/
-}
-.imageGallery{
+    height:100%;
+    width: 100%;
+
+}*/
+
+/*.imageGallery{
 
 	/*width:100px;
-	heigth:57px;*/	
+	heigth:57px;	
+}*/
+.my-iconSize{
+
+    font-size: 100px; //Preferred size here
+    position:relative;
+    left: 0;
+    right: 0;
+    margin:0 auto;
+    top:50%;
+    transform:translateX(50%);
+}
+.map2{
+    position:relative;
+    height:50%;
+    width: 100%;
+    z-index:3;
+    background-color: white;
+
+}
+.map {
+    position:relative;
+    height:50%;
+    width: 100%;
+    background-color: powderblue;
+  
+}
+.texto{
+    width: 100%;
+    -moz-user-select: text;
+    -webkit-user-select: text;
+    -ms-user-select: text;
+}
 }

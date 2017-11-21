@@ -1,46 +1,39 @@
 <!-- Generated template for the StepComponent component -->
-<div>
-
-  <ion-grid>
+<div fixe class="map fix-content">
+  <ion-grid >
     <ion-row>
       <ion-col col-9>
-        <div class="pure" *ngIf="count>0;else other">
-          <li class="my-gallerielist" *ngFor="let media of medias">
-            <img class="image" *ngIf="media.selected" src="{{media.id}}">
-          </li>
+        <div *ngIf="count>0;else other">
+          <div *ngFor="let media of medias">
+              <img display="block"   height="{{height/2.5}}" object-fit="contain" *ngIf="media.selected" src="{{media.id}}">
+          </div>        
         </div>
         <ng-template #other>
-          <img (tap)="takePicture()" src="assets/takePicture.png">
+          <img width="{{width/2}}" height="{{height/2}}" object-fit="contain" (tap)="takePicture()" src="assets/takePicture.png">
         </ng-template>
       </ion-col>
       <ion-col col-3>
-        <div class="pure" *ngIf="count<3;else other2">
-          <li class="my-gallerielist" *ngFor="let media of medias">
-            <img (tap)="tapEvent(media.id)" src="{{media.id}}">
-          </li>
-          <img (tap)="takePicture()" src="assets/takePicture.png">
-        </div>
-        <ng-template #other2>
-          <li class="my-gallerielist" *ngFor="let media of medias">
-            <img (tap)="tapEvent(media.id)" src="{{media.id}}">
-          </li>
-        </ng-template>
+        <div ion-fixed *ngIf="count<3;else other2">
+            <div *ngFor="let media of medias">
+                <img  height="{{height/8}}" object-fit="contain"(tap)="tapEvent(media.id)" src="{{media.id}}">
+            </div>
+            <div>
+              <img height="{{height/8}}" object-fit="contain" (tap)="takePicture()" src="assets/takePicture.png">
+            </div>
+         </div> 
+          <ng-template #other2>
+            <div *ngFor="let media of medias">
+                  <img height="{{height/8}}" object-fit="contain"  (tap)="tapEvent(media.id)" src="{{media.id}}">
+            </div>
+          </ng-template>
+        
       </ion-col>
     </ion-row>
-    <ion-row>
-        <ion-col>
-              <ion-textarea  rows="1" *ngFor="let description of descriptions" placeholder="{{description.text}}"></ion-textarea> 
-        </ion-col>
-    </ion-row>
-    <ion-row>
-      <button ion-button full (click)="addDescription()">Ajouter une ligne</button>
-    </ion-row>
-    <ion-row>
-      <button ion-button full (click)="saveStep()">Sauvergarder</button>
-    </ion-row>
-  </ion-grid>
-  <div>
-    <ion-textarea  rows="10" placeholder="{{mediaSq}}"></ion-textarea>
+    
+    </ion-grid>
+  </div>
 
-  </div>  
+  <div ion-fixed class="map2 scroll-content">
+          <textarea class="texto" rows="50" (keyup.enter)="addRow()" placeholder="{{description}}"></textarea>
 </div>
+  

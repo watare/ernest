@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import {Media} from '../../assets/media';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, AlertController, Slides } from 'ionic-angular';
 import {Description} from '../../assets/description';
-import {Debug} from '../../assets/debug';
 import {MyDbService} from '../../services/my-db.service';
+import { Platform } from 'ionic-angular';
 /**
  * Generated class for the StepComponent component.
  *
@@ -38,14 +38,14 @@ export const MEDIOS: Media[]=[]
 export class StepComponent {
 
   //tableau contenant les lignes de description de l'etape
-  descriptions:Description[]
+  description:string;
   //tableau contenant l'url des medias de l'etape
   medias: Media[]
   //pour tests
   medias2: Media[]
   // variable permettant de faire des affichages conditionnels. incrementation en fonction du nombre de media dans medias
   count:number;
-  debug:Debug;
+  //debug:Debug;
   //objet pour sqlite
   mediaSq:string;
   //objet definnissant les options de la camera. Permet egalement de prendre des videos et d'acceder a la gallerie photo/video
@@ -56,9 +56,14 @@ export class StepComponent {
   mediaType: this.camera.MediaType.PICTURE
 };
 
+  width:number;
+  height:number;
+  textRow:number;
+
+  tutoId:number;
+  stepOrdre:number;
   //en parametre le constructor prend le provider camera, les alertes et l'acces au fichier
-  constructor(private myDbService: MyDbService, private camera: Camera,private file: File) {
-  	console.log('Hello StepComponent Component');
+  constructor(private myDbService: MyDbService ,public plt: Platform, private camera: Camera,private file: File,public alertCtrl: AlertController) {
     //initialisation des variables.Pour rappel il est impossible  d'ajouter des variables dans un tableau sans l'avoir cree []
     this.medias=[];
     //boucle pour modifier count en fonction du nombre de variable dans medias
@@ -67,9 +72,29 @@ export class StepComponent {
     	}else{
     		this.count=this.medias.length;
     	}
-      this.descriptions=[];
-      this.descriptions.push(new Description);
+      this.description="entrer une description";
+      //this.descriptions.push(new Description);
+      this.width=this.plt.width();
+      this.height=this.plt.height();
+      this.textRow=1;
+      this.defTutoId();
+      this.defStepOrdre();
+
+        
   }
+  
+  
+  defTutoId(){
+    //recuperation de l ID du tuto 
+    this.myDbService.selectLastStep().then(result=>this.tutoId=result[0])
+      
+  }
+  defStepOrdre(){
+    //derniere etape enregistre+1
+     this.myDbService.selectLastStep().then(result=>this.stepOrdre=result[1]);
+
+  }
+
   //affichage de la photo de la galerie selectionne/tap
 	tapEvent(id) {
 	    for (let i=0;i<this.medias.length;i++){
@@ -87,7 +112,7 @@ export class StepComponent {
   //fonction permettant de prendre une photo et qui retourne le chemin de l'image.
   //la fonction split permet de separer le chemin du nom du fichier. retourn un tableau
   //la fonction pop recupere le dernier element d'un tableau et le supprime de ce meme tableau
-	takePicture(){
+  takePicture(){
     var splitted: string[];
     var name: string;
     var url: string
@@ -119,12 +144,12 @@ export class StepComponent {
     this.file.moveFile(originalpath+"/",name,'file:///storage/emulated/0/Ernestdata/',name)
         .then(_ => resolve())
         )
-        .catch(err => this.debug.showAlert('fuck'))
+        .catch(err => this.showAlert('fuck'))
 
   }
   //fonction permettant d'ajouter une nouvelle ligne de description
-  addDescription(){
-    this.descriptions.push(new Description);
+  addRow(){
+    this.textRow+=1;
   }
   toJson(obj){
     return JSON.stringify(obj);
@@ -132,9 +157,42 @@ export class StepComponent {
   saveStep(){
 
     this.myDbService.selectLastStep()
-      .then(result=> this.myDbService.insertStep(this.toJson(this.medias),result[0],result[1]+1))
-        .then((result2)=> this.myDbService.incrementTutoStep(result2[0],result2[1]))
-          .catch(e => this.debug.showAlert('fuck'));
+      .then(result=> this.myDbService.insertStep(this.mediaSq,result[0],result[1]+1)
+        .then((result2)=> {
+          this.myDbService.incrementTutoStep(result2[0],result2[1]);
+          //this.medias=[];
+          //this.myDbservice.selectSteps(20);
+          this.showSucces("etape sauvegardee");
 
+          })
+        )
+      .catch(e => this.showAlert('pas fonctionner'));
+   }
+
+  showStep(tutoId,ordre){
+    this.myDbService.selectStepMedias(tutoId)
+    .then(result=> this.medias=eval("("+ result[ordre] + ")"))
+    .catch(e => this.showAlert('pas de tuto'));
+  }
+  loadMedia(media){
+    this.medias=media;
+  }
+  //les alertes
+  showAlert(message) {
+    let alert = this.alertCtrl.create({
+      title: 'Error',
+      subTitle: message,
+      buttons: ['OK']
+    });
+    alert.present();
+  }
+
+  showSucces(message) {
+    let alert = this.alertCtrl.create({
+      title: 'Success',
+      subTitle: message,
+      buttons: ['OK']
+    });
+    alert.present();
   }
 }

@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component,ViewChild } from '@angular/core';
 import { MediaPlugin } from 'ionic-native';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, AlertController,Slides } from 'ionic-angular';
 import { File } from '@ionic-native/file';
 import {MyMediaService} from '../../services/my-media.service';
 import { TutoTreeComponent} from '../../components/tuto-tree/tuto-tree';
@@ -8,15 +8,26 @@ import { StepComponent} from '../../components/step/step';
 
 import {MyDbService} from '../../services/my-db.service';
 import {TutoPage} from '../tuto/tuto';
+import {AccueilPage} from '../accueil/accueil';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+
+/*export class Step {
+  public bob:string;
+}*/
+
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 
+
 export class HomePage {
 
+@ViewChild(Slides) slides: Slides;
+@ViewChild(StepComponent) step: StepComponent;
   //media: MediaPlugin;
+  //steps: Step[];
   nameMed : string;
   media : MediaPlugin;
   name='monPremierTuto'
@@ -24,8 +35,15 @@ export class HomePage {
   constructor(private myDbService: MyDbService ,public mymedia: MyMediaService , private file: File,public navCtrl: NavController,public alertCtrl: AlertController) {
     this.nameMed =this.mymedia.getName();
     this.media = this.mymedia.getMedia();
+    //this.steps=[{bob:'a'},{bob:'b'},{bob:'c'},{bob:'d'}];
   }
 
+  goToSlide() {
+    this.slides.slideTo(2, 500);
+  }
+  /*changeContent(){
+    this.step.loadMedia(medias);
+  }*/
   //verifie si le fichier a bien ete deplace
   createDir(){
     this.file.checkFile(this.file.dataDirectory+'/',this.nameMed)
@@ -76,6 +94,10 @@ export class HomePage {
 
   showTutoPage() {
     this.navCtrl.push(TutoPage);
+}
+
+  showAccueilPage() {
+    this.navCtrl.push(AccueilPage);
 }
   //les alertes
   showAlert(message) {

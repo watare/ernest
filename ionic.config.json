@@ -1,6 +1,6 @@
 {
   "name": "supertuto",
-  "app_id": "",
+  "app_id": "7ce91a6c",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}

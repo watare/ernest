@@ -1,11 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { IonicApp, IonicErrorHandler, IonicModule,} from 'ionic-angular';
+import {ObjectFitImagesModule} from 'heilbaum-ionic-object-fit-images';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { TutoPage} from '../pages/tuto/tuto';
+import {NewtutoPage} from '../pages/newtuto/newtuto';
+import {AccueilPage} from '../pages/accueil/accueil';
 import { File} from '@ionic-native/file';
 import {MyMediaService} from '../services/my-media.service';
 import {MyDbService} from '../services/my-db.service';
@@ -20,6 +23,8 @@ import { Camera } from '@ionic-native/camera';
     MyApp,
     HomePage,
     TutoPage,
+    NewtutoPage,
+    AccueilPage,
     TutoTreeComponent,
     StepComponent,
   ],
@@ -27,12 +32,15 @@ import { Camera } from '@ionic-native/camera';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
+    ObjectFitImagesModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
+    NewtutoPage,
     TutoPage,
+    AccueilPage
   ],
   providers: [
     StatusBar,

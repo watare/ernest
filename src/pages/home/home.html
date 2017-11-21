@@ -36,10 +36,16 @@
 </p>
 </ion-content>-->
 <ion-content>
+<button (click)="showAccueilPage()">Tuto Page</button>
     <button (click)="insertTuto()">insert tuto</button>
     <button (click)="showTuto()">show tuto</button>
+    <button (click)="changeContent()">go to slide</button>
     <step></step>
-
+<!--<ion-slides (ionSlideDidChange)="slideChanged()">
+    <ion-slide *ngFor="let step of steps">
+        <step></step>
+    </ion-slide>
+</ion-slides>-->
   
 </ion-content>
 
