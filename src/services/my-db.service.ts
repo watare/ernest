@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { AlertController } from 'ionic-angular';
-
+import {Item} from '../assets/item';
 
 @Injectable()
 
@@ -61,6 +61,24 @@ la fonction renvoie une promesse qui permet de detecter les erreurs*/
 
   }
   
+  tutoList():Promise<Item[]>{
+    return new Promise((resolve, reject)=>{
+       var items:Item[]=[];
+
+       this.db.executeSql("SELECT *  FROM tutoTable",[])
+       .then((result)=>{
+         
+         for (let i=0;i<result.rows.length;i++){
+           items.push({title:result.rows.item(i).title,
+            tutoId:result.rows.item(i).tutoId,
+            numberSteps: result.rows.item(i).numberSteps})
+         }
+         resolve(items);
+         //this.showAlert(items[0].title);
+       })
+         .catch(e=>this.showAlert("mauvaise reception"))
+    })
+  }
   
 /*fonction pour ajouter une etape dans la table tutoTable en spécifiant le tableau de medias à ajouter, 
  le tuto auquel elle appartient et l'ordre de l'etape

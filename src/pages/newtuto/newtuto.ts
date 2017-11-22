@@ -18,7 +18,12 @@ export class NewtutoPage {
 	@ViewChild(Slides) slides: Slides;
 	@ViewChild(StepComponent) step: StepComponent;
 	count=1;
+  //tutoId:number;
+  //numberSteps:number;
   constructor(private myDbService: MyDbService,public navCtrl: NavController, public navParams: NavParams) {
+    //this.tutoId=this.navParams.get("tutoId");
+    //this.numberSteps=this.navParams.get("numberSteps");
+
   }
 
   ionViewDidLoad() {
@@ -27,7 +32,6 @@ export class NewtutoPage {
 
   newStep(){
   	this.step.saveStep();
-  	this.navCtrl.push(NewtutoPage);
   }
   nextStep(e){
     this.myDbService.selectLastStep().then(result=>{

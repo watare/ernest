@@ -13,8 +13,11 @@
 </ion-header>
 
 
-<ion-content padding>
-
-<button (click)="createTuto()">create Tuto</button>
+<ion-content>
+{{tutoId}}
+{{numberSteps}}
+<div (swipeleft)="nextStep($event)" (swiperight)="previousStep($event)">
+    <step ></step>
+    </div>
 
 </ion-content>

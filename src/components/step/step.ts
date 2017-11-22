@@ -82,8 +82,8 @@ export class StepComponent {
 
         
   }
-  
-  
+  //on vire tout
+
   defTutoId(){
     //recuperation de l ID du tuto 
     this.myDbService.selectLastStep().then(result=>this.tutoId=result[0])
@@ -124,9 +124,10 @@ export class StepComponent {
        this.myMove(url,name)
        .then(()=>{
          this.medias.push({id:'file:///storage/emulated/0/Ernestdata/'+ name,type: 'photo',selected: false});
-         this.count++;
          this.mediaSq=this.toJson(this.medias);
          this.medias2=eval("(" + this.mediaSq + ")");
+         this.count++;
+         this.medias[0].selected=true;
          //this.myDbService.insertStep(this.mediaSq,2);
          //this.myDbService.selectStep(2);
        })
@@ -160,7 +161,11 @@ export class StepComponent {
       .then(result=> this.myDbService.insertStep(this.mediaSq,result[0],result[1]+1)
         .then((result2)=> {
           this.myDbService.incrementTutoStep(result2[0],result2[1]);
-          //this.medias=[];
+          this.count=0;
+          this.medias=[];
+          this.defTutoId();
+          this.defStepOrdre();
+
           //this.myDbservice.selectSteps(20);
           this.showSucces("etape sauvegardee");
 

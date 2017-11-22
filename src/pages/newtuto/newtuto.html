@@ -16,6 +16,9 @@
 <ion-content >
 {{step.stepOrdre}}
 {{step.tutoId}}
+{{tutoId}}
+{{numberSteps}}
+
   <div (swipeleft)="nextStep($event)" (swiperight)="previousStep($event)">
     <step ></step>
     </div>

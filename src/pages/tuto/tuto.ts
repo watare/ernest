@@ -1,11 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
-import {Tuto} from '../../assets/tuto';
-import {Branch} from '../../assets/branch';
-import {Step} from '../../assets/step';
-//import {MediaPlugin} from 'ionic-native';
-//import { MediaPlugin } from 'ionic-native';
-//import {MyMediaService} from '../home/my-media.service';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+
 /**
  * Generated class for the TutoPage page.
  *
@@ -19,39 +14,24 @@ import {Step} from '../../assets/step';
   templateUrl: 'tuto.html',
 })
 export class TutoPage {
-  //media : MediaPlugin;
-  constructor(public navCtrl: NavController, 
-  	public navParams: NavParams,public alertCtrl: AlertController,/*public mymedia: MyMediaService*/) {
-  //this.media = this.mymedia.getMedia();
-  }
-  showSucces(message) {
-    let alert = this.alertCtrl.create({
-      title: 'Success',
-      subTitle: message,
-      buttons: ['OK']
-    });
-    alert.present();
+
+
+	tutoId:number;
+  	numberSteps:number;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  	this.tutoId=this.navParams.get("tutoId");
+    this.numberSteps=this.navParams.get("numberSteps");
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TutoPage');
   }
-  createTuto(){
-  	try{
-  		var tuto= new Tuto;
-  		//this.showSucces(tuto.id); 		
+  nextStep(e){
+
   }
-  	catch (e) {
-      this.showSucces('Could not createtuto');
+  previousStep(e){
+  	
   }
 
-  	try{
-  			this.showSucces(tuto.branchList[0].stepList[0].id);
-  			tuto.addBranch();
-  			
-  		}
-  		catch(e){
-  			this.showSucces('Could not create branch');
-  		}
-}
 }
