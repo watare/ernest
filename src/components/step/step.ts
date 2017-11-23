@@ -179,6 +179,11 @@ export class StepComponent {
     .then(result=> this.medias=eval("("+ result[ordre] + ")"))
     .catch(e => this.showAlert('pas de tuto'));
   }
+  showStep2(medias){
+    this.medias=eval("("+medias+")");
+    this.count=this.medias.length;
+    this.medias[0].selected=true;
+  }
   loadMedia(media){
     this.medias=media;
   }

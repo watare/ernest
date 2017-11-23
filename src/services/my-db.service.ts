@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { AlertController } from 'ionic-angular';
 import {Item} from '../assets/item';
-
+import {ItemStep} from '../assets/itemStep';
 @Injectable()
 
 
@@ -80,13 +80,30 @@ la fonction renvoie une promesse qui permet de detecter les erreurs*/
     })
   }
   
+  stepList(tutoId):Promise<ItemStep[]>{
+    return new Promise((resolve, reject)=>{
+      
+      var itemSteps:ItemStep[]=[];
+      this.db.executeSql("SELECT * FROM stepTable WHERE stepTuto=?",[tutoId])
+        .then((result)=>{
+          for(let i=0;i<result.rows.length;i++){
+            itemSteps.push({stepId: result.rows.item(i).stepId,
+              ordre:result.rows.item(i).ordre,
+              medias:result.rows.item(i).media
+          })
+        }
+        resolve(itemSteps);
+      })
+      .catch(e=>this.showAlert("mauvaise reception"))
+    })
+  }
 /*fonction pour ajouter une etape dans la table tutoTable en spécifiant le tableau de medias à ajouter, 
  le tuto auquel elle appartient et l'ordre de l'etape
  a fonction retourne une promesse  ce qui permet de la serialisée*/  
 insertStep(medias,tutoId,ordre){
     return new Promise ((resolve,reject)=>{
       var tutoIdOrdre = [tutoId,ordre];
-      this.db.executeSql("INSERT INTO stepTable (media, stepTuto) VALUES (?,?)",[medias,tutoId])
+      this.db.executeSql("INSERT INTO stepTable (media, stepTuto,ordre) VALUES (?,?,?)",[medias,tutoId,ordre])
       .then(() => {
       resolve(tutoIdOrdre);
       this.showAlert(tutoIdOrdre[1]);/*this.showSucces('insertion reussie')*/
